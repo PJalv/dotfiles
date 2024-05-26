@@ -9,8 +9,14 @@ import = [
 [env]
 TERM = "xterm-256color"
 
+[shell]
+program = "/bin/zsh"
+
 [font]
-size = 17.0
+size = 12.0
+
+[window]
+opacity = 0.9
 
 [font.bold]
 family = "FiraCode Nerd Font"
