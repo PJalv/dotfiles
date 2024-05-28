@@ -105,10 +105,14 @@
         // "icon-size": 21,
         "spacing": 10
     },
-    "clock": {
-        // "timezone": "America/New_York",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
+"clock": {
+        "tooltip-format": "<big>{:%A, %d.%B %Y }</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%I:%M:%S}",	//12 hour format
+        //"format": " {:%a %d %b  %H:%M}",	//24 hour format
+        "format-alt": " {:%d/%m/%Y  %H:%M:%S}",
+        //"max-length": 200
+        "interval": 1,
+        "on-click": "~/.config/waybar/scripts/OCV",
     },
     "cpu": {
         "format": "{usage}% ",
@@ -170,7 +174,7 @@
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon} {format_source}",
+        "format": "{volume}% {icon}   {format_source}",
         "format-bluetooth": "{volume}% {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
@@ -189,15 +193,11 @@
         "on-click-middle": "pactl set-sink-mute 0 toggle"
     },
     "custom/media": {
-        "format": "{icon} {}",
-        "return-type": "json",
-        "max-length": 80,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    "exec": "~/.config/waybar/mediaplayer.py -v --player spotify",
+    "format": "{}  ",
+    "return-type": "json",
+    "on-click": "playerctl --player=spotify,vlc play-pause",
+    "on-scroll-up": "playerctl --player=spotify,vlc next",
+    "on-scroll-down": "playerctl --player=spotify,vlc previous"
     }
 }
