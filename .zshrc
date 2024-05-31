@@ -81,7 +81,14 @@ alias c='clear'
 alias pbc='wl=copy'
 alias pbp='wl-paste'
 
+ask() {
+    echo "$1" | fabric --pattern ai
+}
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
+
+# Created by `pipx` on 2024-05-30 03:39:08
+export PATH="$PATH:/home/pjalv/.local/bin"
+if [ -f "/home/pjalv/.config/fabric/fabric-bootstrap.inc" ]; then . "/home/pjalv/.config/fabric/fabric-bootstrap.inc"; fi
