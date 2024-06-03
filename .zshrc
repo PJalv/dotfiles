@@ -92,3 +92,12 @@ eval "$(zoxide init --cmd cd zsh)"
 # Created by `pipx` on 2024-05-30 03:39:08
 export PATH="$PATH:/home/pjalv/.local/bin"
 if [ -f "/home/pjalv/.config/fabric/fabric-bootstrap.inc" ]; then . "/home/pjalv/.config/fabric/fabric-bootstrap.inc"; fi
+
+# bun completions
+[ -s "/home/pjalv/.bun/_bun" ] && source "/home/pjalv/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+export PATH=$PATH:/home/pjalv/.spicetify
