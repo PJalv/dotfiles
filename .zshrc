@@ -81,6 +81,11 @@ alias c='clear'
 alias pbc='wl=copy'
 alias pbp='wl-paste'
 
+alias webupdate='scp -r * root@pjalv.com:/home/website && \
+ssh root@pjalv.com "find /home/website -type f -exec sed -i 's#http://192.168.254.13:3000#https://pjalv.com#g' {} +" && \
+ssh root@pjalv.com "tmux send-keys -t 0 C-c; sleep 1; tmux send-keys -t 0 '\''go run main.go true'\'' C-m;"'
+
+
 ask() {
     echo "$1" | fabric --pattern ai
 }
