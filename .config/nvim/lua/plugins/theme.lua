@@ -16,6 +16,7 @@ return {
       return {
         styles = {
           transparency = true,
+          bold = false,
         },
       }
     end,
