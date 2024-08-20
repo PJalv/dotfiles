@@ -9,4 +9,18 @@ return {
       },
     },
   },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    opts = function()
+      return {
+        styles = {
+          transparency = true,
+        },
+      }
+    end,
+  },
+  { "ellisonleao/gruvbox.nvim", config = true, opts = {
+    transparent_mode = true,
+  } },
 }
