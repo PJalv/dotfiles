@@ -1,7 +1,7 @@
 return {
   {
     "yacineMTB/dingllm.nvim",
-    commit = "22fcdfa",
+    -- commit = "22fcdfa",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local system_prompt =

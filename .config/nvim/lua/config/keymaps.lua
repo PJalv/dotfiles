@@ -4,3 +4,6 @@
 local map = LazyVim.safe_keymap_set
 
 map("n", "<leader>d", "dd", { desc = "Cut Line", remap = true })
+map("n", "<leader>rn", function()
+  return ":IncRename " .. vim.fn.expand("<cword>")
+end, { expr = true })
