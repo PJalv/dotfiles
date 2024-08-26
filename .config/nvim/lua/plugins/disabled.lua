@@ -1,9 +1,5 @@
 return {
   {
-    "echasnovski/mini.icons",
-    enabled = false,
-  },
-  {
     "echasnovski/mini.pairs",
     enabled = false,
   },
