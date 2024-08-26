@@ -111,4 +111,4 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 
 export PATH=$PATH:/home/pjalv/.spicetify
 export PATH=$PATH:/home/pjalv/go/bin
-
+export TERM=xterm-256color
