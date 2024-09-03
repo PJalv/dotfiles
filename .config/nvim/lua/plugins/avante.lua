@@ -5,7 +5,6 @@ return {
   opts = {
     provider = "openai",
     openai = {
-      -- api_key_name = "cmd:cat " .. os.getenv("HOME") .. "/theenv/openaiapi",
       model = "gpt-4o-mini",
     },
     -- add any opts here
