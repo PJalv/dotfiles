@@ -109,6 +109,8 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export DENO_INSTALL="/home/pjalv/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
+export OPENAI_API_KEY=$(cat ~/theenv/openai)
+
 export PATH=$PATH:/home/pjalv/.spicetify
 export PATH=$PATH:/home/pjalv/go/bin
 
