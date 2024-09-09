@@ -6,6 +6,7 @@ return {
     provider = "openai",
     openai = {
       model = "gpt-4o-mini",
+      api_key_name = "cmd:cat " .. os.getenv("HOME") .. "/theenv/openaiapi",
     },
     -- add any opts here
     windows = {
