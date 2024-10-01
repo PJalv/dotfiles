@@ -88,3 +88,6 @@ end
 vim.api.nvim_create_user_command("UploadAndInsertImage", function(opts)
   handle_clipboard_file(tonumber(opts.args))
 end, { nargs = 1 })
+
+
+vim.g.root_spec = {"cwd"}

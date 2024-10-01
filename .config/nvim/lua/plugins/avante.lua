@@ -7,6 +7,9 @@ return {
     openai = {
       model = "gpt-4o-mini",
     },
+    behaviour = {
+      auto_suggestions = false,
+    },
     -- add any opts here
   },
   dependencies = {

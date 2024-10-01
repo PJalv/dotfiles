@@ -41,7 +41,11 @@ zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
 
 # Load completions
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
 
 zinit cdreplay -q
 
@@ -113,4 +117,3 @@ export OPENAI_API_KEY=$(cat ~/theenv/openai)
 
 export PATH=$PATH:/home/pjalv/.spicetify
 export PATH=$PATH:/home/pjalv/go/bin
-

@@ -1,10 +1,11 @@
 @import "mocha.css";
 
-* {
+#waybar {
 	border: none;
 	/*border-radius: 6px;*/
 	/* `otf-font-awesome` is required to be installed for icons */
-	font-family: Symbols Nerd Font, SF Pro Display, Noto Sans CJK JP;
+	font-family: "Symbols Nerd Font";
+  background: transparent;
 	font-size: 14px;
 	font-weight: normal;
 }
