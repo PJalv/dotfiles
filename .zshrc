@@ -113,4 +113,4 @@ export OPENAI_API_KEY=$(cat ~/theenv/openai)
 
 export PATH=$PATH:/home/pjalv/.spicetify
 export PATH=$PATH:/home/pjalv/go/bin
-
+export TERM=xterm-256color
