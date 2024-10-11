@@ -193,8 +193,9 @@
         "on-click-middle": "pactl set-sink-mute 0 toggle"
     },
     "custom/media": {
-    "exec": "~/.config/waybar/mediaplayer.py -v --player spotify",
-    "format": "{}  ",
+    
+"exec": "playerctl --follow metadata --format '{\"text\": \"{{ artist }} - {{ title }}\", \"class\": \"custom-spotify\", \"alt\": \"spotify\"}'",
+  "format": "{}  ",
     "return-type": "json",
     "on-click": "playerctl --player=spotify,vlc play-pause",
     "on-scroll-up": "playerctl --player=spotify,vlc next",
