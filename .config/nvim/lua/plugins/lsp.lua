@@ -17,14 +17,18 @@ return {
     ---@class PluginLspOpts
     opts = {
       inlay_hints = { enabled = false },
-      ---@type lspconfig.options
       servers = {
         gopls = {},
+        tsserver = {},
       },
     },
   },
   require("lspconfig").clangd.setup({
     cmd = { "clangd", "--compile-commands-dir=" .. find_compile_commands_dir() },
+  }),
+  require("lspconfig").basedpyright.setup({
+  }),
+  require("lspconfig").nixd.setup({
   }),
   {
     "smjonas/inc-rename.nvim",

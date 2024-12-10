@@ -4,6 +4,10 @@ return {
     enabled = false,
   },
   {
+    "williamboman/mason.nvim",
+    enabled = false,
+  },
+  {
     "folke/noice.nvim",
     opts = {
       cmdline = {
