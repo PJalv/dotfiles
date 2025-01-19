@@ -18,16 +18,19 @@ return {
     opts = {
       inlay_hints = { enabled = false },
       servers = {
-        gopls = {},
-        tsserver = {},
       },
     },
   },
   require("lspconfig").clangd.setup({
     cmd = { "clangd", "--compile-commands-dir=" .. find_compile_commands_dir() },
   }),
-  require("lspconfig").basedpyright.setup({
-  }),
+  require("lspconfig").basedpyright.setup {
+    settings = {
+      basedpyright = {
+        typeCheckingMode = "standard",
+      },
+    },
+  },
   require("lspconfig").nixd.setup({
   }),
   {
