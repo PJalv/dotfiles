@@ -11,28 +11,28 @@ local function find_compile_commands_dir()
 end
 
 return {
-
   {
     "neovim/nvim-lspconfig",
     ---@class PluginLspOpts
     opts = {
       inlay_hints = { enabled = false },
       servers = {
+        clangd = {
+          cmd = { "clangd", "--compile-commands-dir=" .. find_compile_commands_dir() },
+        },
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              typeCheckingMode = "standard",
+            },
+          },
+        },
+        nixd = {},
+        gopls = {},
+        arduino_language_server = {},
       },
     },
   },
-  require("lspconfig").clangd.setup({
-    cmd = { "clangd", "--compile-commands-dir=" .. find_compile_commands_dir() },
-  }),
-  require("lspconfig").basedpyright.setup {
-    settings = {
-      basedpyright = {
-        typeCheckingMode = "standard",
-      },
-    },
-  },
-  require("lspconfig").nixd.setup({
-  }),
   {
     "smjonas/inc-rename.nvim",
     config = function()
