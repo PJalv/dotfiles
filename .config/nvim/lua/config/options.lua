@@ -4,6 +4,9 @@
 local opt = vim.opt
 opt.signcolumn = "no"
 opt.shell = "zsh"
+opt.winfixbuf = false
+vim.g.snacks_animate = false
+
 local function upload_file(file_path, remote_path)
   local cmd = string.format("scp %s debian@pjalv.com:%s", file_path, remote_path)
   local result = vim.fn.system(cmd)

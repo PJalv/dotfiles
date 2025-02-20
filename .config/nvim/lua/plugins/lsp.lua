@@ -19,6 +19,7 @@ return {
       servers = {
         clangd = {
           cmd = { "clangd", "--compile-commands-dir=" .. find_compile_commands_dir() },
+          filetypes = { "c", "cpp", "objc", "objcpp", "arduino" },
         },
         basedpyright = {
           settings = {
@@ -29,7 +30,6 @@ return {
         },
         nixd = {},
         gopls = {},
-        arduino_language_server = {},
       },
     },
   },

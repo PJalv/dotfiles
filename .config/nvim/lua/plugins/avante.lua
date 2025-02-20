@@ -6,22 +6,23 @@ return {
     version = false, -- set this if you want to always pull the latest change
     opts = {
       provider = "reason",
+      cursor_applying_provider = 'fast',  -- In this example, use Groq for applying, but you can also use any provider you want.
       auto_suggestions_provider = "fast", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
       behaviour = {
-        auto_suggestions = true,          -- Experimental stage
+        auto_suggestions = false,         -- Experimental stage
         auto_set_highlight_group = true,
         auto_set_keymaps = true,
-        auto_apply_diff_after_generation = false,
+        auto_apply_diff_after_generation = true,
         support_paste_from_clipboard = false,
         minimize_diff = true,         -- Whether to remove unchanged lines when applying a code block
         enable_token_counting = true, -- Whether to enable token counting. Default to true.
+        enable_cursor_planning_mode = true,
       },
       vendors = {
         ["reason"] = {
           __inherited_from = "openai",
           endpoint = "https://openrouter.ai/api/v1",
-          model = "deepseek/deepseek-r1-distill-qwen-32b",
-          -- model = "google/gemini-flash-1.5-8b",
+          model = "anthropic/claude-3.5-sonnet:nitro",
 
           max_tokens = 10000,
           -- optional
@@ -30,8 +31,9 @@ return {
         ["fast"] = {
           __inherited_from = "openai",
           endpoint = "https://openrouter.ai/api/v1",
+          model = "google/gemini-2.0-flash-001:nitro",
           -- model = "openai/gpt-4o-mini",
-          model = "qwen/qwen-2.5-7b-instruct",
+          -- model = "qwen/qwen-2.5-coder-32b-instruct:nitro",
 
           timeout = 10000, -- Timeout in milliseconds
           -- optional
