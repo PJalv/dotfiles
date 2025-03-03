@@ -9,7 +9,7 @@ return {
       cursor_applying_provider = 'fast',  -- In this example, use Groq for applying, but you can also use any provider you want.
       auto_suggestions_provider = "fast", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
       rag_service = {
-        enabled = true,
+        enabled = false,
       },
       behaviour = {
         auto_suggestions = false, -- Experimental stage
@@ -25,7 +25,7 @@ return {
         ["reason"] = {
           __inherited_from = "openai",
           endpoint = "https://openrouter.ai/api/v1",
-          model = "anthropic/claude-3.5-sonnet:nitro",
+          model = "anthropic/claude-3.7-sonnet:nitro",
 
           max_tokens = 10000,
           -- optional
