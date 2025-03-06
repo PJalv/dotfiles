@@ -14,7 +14,6 @@ pkgs.mkShell rec {
 
     source .venv/bin/activate
     uv pip install realtimestt
-    bash toggle_voice_typer.sh
 
   '';
 }
