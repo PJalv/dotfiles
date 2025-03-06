@@ -42,6 +42,7 @@ output_json() {
 }
 
 # Initial output
+notify-send "VOICE TYPER SCRIPT LOADED"
 output_json
 
 # Set up inotify to watch for changes to the status file
