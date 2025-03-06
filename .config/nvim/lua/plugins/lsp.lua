@@ -30,6 +30,7 @@ return {
         },
         nixd = {},
         gopls = {},
+        typescript_language_server = {},
       },
     },
   },

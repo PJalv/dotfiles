@@ -5,11 +5,13 @@ return {
     lazy = false,
     version = false, -- set this if you want to always pull the latest change
     opts = {
+      debug = false,
       provider = "reason",
       cursor_applying_provider = 'fast',  -- In this example, use Groq for applying, but you can also use any provider you want.
       auto_suggestions_provider = "fast", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
       rag_service = {
-        enabled = false,
+        enabled = true,
+        runner = "nix",
       },
       behaviour = {
         auto_suggestions = false, -- Experimental stage

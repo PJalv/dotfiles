@@ -228,3 +228,22 @@ label:focus {
 	font-size: 1px;
 	margin: 0px 2px 0px 2px;
 }
+#custom-voice-typer {
+  padding: 0 10px;
+  margin: 0 4px;
+}
+
+#custom-voice-typer.active {
+  background-color: #f53c3c;
+  color: #ffffff;
+}
+
+#custom-voice-typer.inactive {
+  background-color: transparent;
+  color: #cccccc;
+}
+
+#custom-voice-typer.stopped {
+  background-color: #555555;
+  color: #aaaaaa;
+}
