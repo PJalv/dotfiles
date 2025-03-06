@@ -29,20 +29,20 @@ output_json() {
   
   # Customize icon based on status
   if [ "$status" = "active" ]; then
-    tooltip="Voice Typer (Active)"
+    tooltip="ACTIVE"
   elif [ "$status" = "inactive" ]; then
-    tooltip="Voice Typer (Listening)"
+    tooltip=""
+    icon="🔇"
   else
-    tooltip="Voice Typer (Stopped)"
+    tooltip=""
     icon="🔇"
   fi
   
   # Output JSON
-  echo "{\"text\":\"$icon\", \"tooltip\":\"$tooltip\", \"class\":\"$status\", \"alt\":\"voice-typer\"}"
+  echo "{\"text\":\"$icon: $tooltip\", \"tooltip\":\"$tooltip\", \"class\":\"$status\", \"alt\":\"voice-typer\"}"
 }
 
 # Initial output
-notify-send "VOICE TYPER SCRIPT LOADED"
 output_json
 
 # Set up inotify to watch for changes to the status file
