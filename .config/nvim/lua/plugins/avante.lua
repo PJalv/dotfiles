@@ -4,13 +4,14 @@ return {
     event = "VeryLazy",
     lazy = false,
     version = false, -- set this if you want to always pull the latest change
+    enabled = true,
     opts = {
       debug = false,
       provider = "reason",
       cursor_applying_provider = 'fast',  -- In this example, use Groq for applying, but you can also use any provider you want.
       auto_suggestions_provider = "fast", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
       rag_service = {
-        enabled = true,
+        enabled = false,
         runner = "nix",
       },
       behaviour = {
@@ -27,11 +28,12 @@ return {
         ["reason"] = {
           __inherited_from = "openai",
           endpoint = "https://openrouter.ai/api/v1",
-          model = "anthropic/claude-3.7-sonnet:nitro",
+          -- model = "google/gemini-2.5-pro-preview-03-25",
+          model = "google/gemini-2.5-flash-preview",
 
-          max_tokens = 10000,
+          -- max_tokens = 10000,
           -- optional
-          api_key_name = "cmd:cat " .. os.getenv("HOME") .. "/theenv/openrouter",
+          api_key_name = "cmd:echo " .. os.getenv("OPENROUTER_API_KEY"),
         },
         ["fast"] = {
           __inherited_from = "openai",
@@ -42,7 +44,7 @@ return {
 
           timeout = 10000, -- Timeout in milliseconds
           -- optional
-          api_key_name = "cmd:cat " .. os.getenv("HOME") .. "/theenv/openrouter",
+          api_key_name = "cmd:echo " .. os.getenv("OPENROUTER_API_KEY"),
         },
       },
       web_search_engine = {
