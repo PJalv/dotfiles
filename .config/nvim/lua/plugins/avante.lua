@@ -10,6 +10,7 @@ return {
       provider = "reason",
       cursor_applying_provider = 'fast',  -- In this example, use Groq for applying, but you can also use any provider you want.
       auto_suggestions_provider = "fast", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
+      memory_summary_provider = "fast",   -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
       rag_service = {
         enabled = false,
         runner = "nix",
@@ -28,17 +29,17 @@ return {
         ["reason"] = {
           __inherited_from = "openai",
           endpoint = "https://openrouter.ai/api/v1",
+          -- model = "meta-llama/llama-3.3-70b-instruct:nitro",
+          model = "openai/gpt-4.1-mini",
           -- model = "google/gemini-2.5-pro-preview-03-25",
-          model = "google/gemini-2.5-flash-preview",
 
-          -- max_tokens = 10000,
-          -- optional
           api_key_name = "cmd:echo " .. os.getenv("OPENROUTER_API_KEY"),
+          disable_tools = false,
         },
         ["fast"] = {
           __inherited_from = "openai",
           endpoint = "https://openrouter.ai/api/v1",
-          model = "meta-llama/llama-3.3-70b-instruct:nitro",
+          model = "google/gemini-2.5-flash-preview",
           -- model = "openai/gpt-4o-mini",
           -- model = "qwen/qwen-2.5-coder-32b-instruct:nitro",
 
@@ -68,8 +69,8 @@ return {
         },
       },
       suggestion = {
-        debounce = 1,
-        throttle = 1,
+        debounce = 600,
+        throttle = 600,
       },
       -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
       build = "make",

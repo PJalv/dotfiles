@@ -15,10 +15,10 @@ return {
       },
     },
   },
-  {
-    "akinsho/bufferline.nvim",
-    enabled = false,
-  },
+  -- {
+  --   "akinsho/bufferline.nvim",
+  --   enabled = false,
+  -- },
 
   -- Add other plugins as needed
 }

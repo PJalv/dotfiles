@@ -1,6 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   opts = {
+    -- lua/plugins/nvim-treesitter.lua
     ensure_installed = {
       "bash",
       "c",
