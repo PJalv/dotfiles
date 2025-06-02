@@ -6,11 +6,11 @@ return {
     version = false, -- set this if you want to always pull the latest change
     enabled = true,
     opts = {
+      mode = "legacy",
       debug = false,
-      provider = "reason",
-      cursor_applying_provider = 'fast',  -- In this example, use Groq for applying, but you can also use any provider you want.
+      cursor_applying_provider = "fast", -- In this example, use Groq for applying, but you can also use any provider you want.
       auto_suggestions_provider = "fast", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
-      memory_summary_provider = "fast",   -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
+      memory_summary_provider = "fast", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
       rag_service = {
         enabled = false,
         runner = "nix",
@@ -21,31 +21,23 @@ return {
         auto_set_keymaps = true,
         auto_apply_diff_after_generation = false,
         support_paste_from_clipboard = false,
-        minimize_diff = true,         -- Whether to remove unchanged lines when applying a code block
+        minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
         enable_token_counting = true, -- Whether to enable token counting. Default to true.
         enable_cursor_planning_mode = true,
       },
+      provider = "main",
       vendors = {
-        ["reason"] = {
+        main = {
           __inherited_from = "openai",
           endpoint = "https://openrouter.ai/api/v1",
-          -- model = "meta-llama/llama-3.3-70b-instruct:nitro",
+          api_key_name = "OPENROUTER_API_KEY",
           model = "openai/gpt-4.1-mini",
-          -- model = "google/gemini-2.5-pro-preview-03-25",
-
-          api_key_name = "cmd:echo " .. os.getenv("OPENROUTER_API_KEY"),
-          disable_tools = false,
         },
-        ["fast"] = {
+        fast = {
           __inherited_from = "openai",
           endpoint = "https://openrouter.ai/api/v1",
-          model = "google/gemini-2.5-flash-preview",
-          -- model = "openai/gpt-4o-mini",
-          -- model = "qwen/qwen-2.5-coder-32b-instruct:nitro",
-
-          timeout = 10000, -- Timeout in milliseconds
-          -- optional
-          api_key_name = "cmd:echo " .. os.getenv("OPENROUTER_API_KEY"),
+          api_key_name = "OPENROUTER_API_KEY",
+          model = "google/gemini-2.5-flash-preview-05-20",
         },
       },
       web_search_engine = {
@@ -89,7 +81,7 @@ return {
           opts = {
             -- recommended settings
             default = {
-              embed_image_as_base64 = false,
+              embed_image_as_base64 = true,
               prompt_for_file_name = false,
               drag_and_drop = {
                 insert_mode = true,
@@ -101,7 +93,7 @@ return {
         },
         {
           -- Make sure to set this up properly if you have lazy=true
-          'MeanderingProgrammer/render-markdown.nvim',
+          "MeanderingProgrammer/render-markdown.nvim",
           opts = {
             file_types = { "markdown", "Avante" },
           },
@@ -109,4 +101,5 @@ return {
         },
       },
     },
-  }, }
+  },
+}

@@ -18,9 +18,10 @@ return {
       inlay_hints = { enabled = false },
       servers = {
         clangd = {
-          cmd = { "clangd", "--compile-commands-dir=" .. find_compile_commands_dir() },
+          cmd = { "clangd", "--compile-commands-dir=" .. find_compile_commands_dir(), "--log=verbose" },
           filetypes = { "c", "cpp", "objc", "objcpp", "arduino" },
         },
+        -- ccls = {},
         basedpyright = {
           settings = {
             basedpyright = {
@@ -30,6 +31,7 @@ return {
         },
         nixd = {},
         bashls = {},
+        zls = {},
       },
     },
   },
