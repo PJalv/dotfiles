@@ -8,9 +8,9 @@ return {
     opts = {
       mode = "legacy",
       debug = false,
-      cursor_applying_provider = "fast", -- In this example, use Groq for applying, but you can also use any provider you want.
+      cursor_applying_provider = "fast",  -- In this example, use Groq for applying, but you can also use any provider you want.
       auto_suggestions_provider = "fast", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
-      memory_summary_provider = "fast", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
+      memory_summary_provider = "fast",   -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
       rag_service = {
         enabled = false,
         runner = "nix",
@@ -21,12 +21,12 @@ return {
         auto_set_keymaps = true,
         auto_apply_diff_after_generation = false,
         support_paste_from_clipboard = false,
-        minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
+        minimize_diff = true,         -- Whether to remove unchanged lines when applying a code block
         enable_token_counting = true, -- Whether to enable token counting. Default to true.
         enable_cursor_planning_mode = true,
       },
       provider = "main",
-      vendors = {
+      providers = {
         main = {
           __inherited_from = "openai",
           endpoint = "https://openrouter.ai/api/v1",

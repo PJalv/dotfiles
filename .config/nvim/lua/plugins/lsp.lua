@@ -32,6 +32,7 @@ return {
         nixd = {},
         bashls = {},
         zls = {},
+        gopls = {},
       },
     },
   },
