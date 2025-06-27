@@ -6,7 +6,6 @@ return {
     version = false, -- set this if you want to always pull the latest change
     enabled = true,
     opts = {
-      mode = "legacy",
       debug = false,
       cursor_applying_provider = "fast",  -- In this example, use Groq for applying, but you can also use any provider you want.
       auto_suggestions_provider = "fast", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
@@ -32,6 +31,7 @@ return {
           endpoint = "https://openrouter.ai/api/v1",
           api_key_name = "OPENROUTER_API_KEY",
           model = "openai/gpt-4.1-mini",
+          -- model = "google/gemini-2.5-flash-preview-05-20",
         },
         fast = {
           __inherited_from = "openai",

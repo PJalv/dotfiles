@@ -21,7 +21,6 @@ return {
           cmd = { "clangd", "--compile-commands-dir=" .. find_compile_commands_dir(), "--log=verbose" },
           filetypes = { "c", "cpp", "objc", "objcpp", "arduino" },
         },
-        -- ccls = {},
         basedpyright = {
           settings = {
             basedpyright = {
@@ -33,6 +32,7 @@ return {
         bashls = {},
         zls = {},
         gopls = {},
+        ts_ls = {},
       },
     },
   },
