@@ -1,10 +1,10 @@
 return {
   {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
     enabled = false,
   },
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     enabled = false,
   },
   {
@@ -15,6 +15,11 @@ return {
       },
     },
   },
+  {
+    "mason-lspconfig.nvim",
+    enabled = false,
+  },
+
   -- {
   --   "akinsho/bufferline.nvim",
   --   enabled = false,

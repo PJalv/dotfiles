@@ -33,6 +33,7 @@ return {
         zls = {},
         gopls = {},
         ts_ls = {},
+        yamlls = {},
       },
     },
   },

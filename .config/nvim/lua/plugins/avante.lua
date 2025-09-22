@@ -22,7 +22,6 @@ return {
         support_paste_from_clipboard = false,
         minimize_diff = true,         -- Whether to remove unchanged lines when applying a code block
         enable_token_counting = true, -- Whether to enable token counting. Default to true.
-        enable_cursor_planning_mode = true,
       },
       provider = "main",
       providers = {
@@ -30,8 +29,11 @@ return {
           __inherited_from = "openai",
           endpoint = "https://openrouter.ai/api/v1",
           api_key_name = "OPENROUTER_API_KEY",
-          model = "openai/gpt-4.1-mini",
-          -- model = "google/gemini-2.5-flash-preview-05-20",
+          -- model = "anthropic/claude-sonnet-4",
+          -- model = "deepseek/deepseek-chat-v3-0324",
+          -- model = "google/gemini-2.5-flash",
+          model = "z-ai/glm-4.5",
+          -- model = "qwen/qwen3-coder:floor",
         },
         fast = {
           __inherited_from = "openai",
