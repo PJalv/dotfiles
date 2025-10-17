@@ -34,6 +34,7 @@ return {
         gopls = {},
         ts_ls = {},
         yamlls = {},
+        copilot = {},
       },
     },
   },

@@ -57,6 +57,7 @@ return {
         "clang-format",
         "lua_switch_case_formatter",
       },
+      nix = { "alejandra" }
     },
   },
 }
