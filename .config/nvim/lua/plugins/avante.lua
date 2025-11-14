@@ -1,10 +1,11 @@
 return {
   {
     "yetone/avante.nvim",
+
     event = "VeryLazy",
     lazy = false,
     version = false, -- set this if you want to always pull the latest change
-    enabled = true,
+    enabled = false,
     opts = {
       debug = false,
       cursor_applying_provider = "fast",  -- In this example, use Groq for applying, but you can also use any provider you want.
@@ -27,7 +28,7 @@ return {
       providers = {
         main = {
           __inherited_from = "openai",
-          endpoint = "https://openrouter.ai/api/v1",
+          endpoint = "https://openrouter.ai/api/v",
           api_key_name = "OPENROUTER_API_KEY",
           -- model = "anthropic/claude-sonnet-4",
           -- model = "deepseek/deepseek-chat-v3-0324",
