@@ -1,5 +1,8 @@
 customCommands:
-  - key: '<c-p>'
+  - key: '<c-F>'
     command: "git push origin HEAD:refs/for/{{.CheckedOutBranch.Name}}"
     context: 'global'
     loadingText: 'pushing'
+
+
+confirmOnQuit: true

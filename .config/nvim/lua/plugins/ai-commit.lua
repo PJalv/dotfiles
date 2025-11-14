@@ -4,8 +4,8 @@ return {
     "nvim-lua/plenary.nvim",
   },
   opts = {
-    -- model = "google/gemini-2.5-flash-preview",
-    model = "openai/gpt-4.1",
+    model = "google/gemini-2.5-flash",
+    -- model = "openai/gpt-4.1",
     custom_prompt = [[
               Use the conventional commit format: type(scope): concise description
               Analyze the entire diff and identify different aspects of the changes (new features, bug fixes, refactoring, etc.)

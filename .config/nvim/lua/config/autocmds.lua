@@ -84,32 +84,32 @@ Deliver a **prioritized report** (e.g., “Critical: 2 memory leaks in `handle_c
   3. Highlights potential hardware-specific edge cases (e.g., endianness in network packets).  ]]
 
 -- Function to set the custom system prompt explicitly
-local function set_custom_prompt()
-  require("avante.config").override({ system_prompt = custom_system_prompt })
-  print("Switched to custom coding standards prompt for Avante.")
-  is_custom_prompt_active = true
-end
+-- local function set_custom_prompt()
+--   require("avante.config").override({ system_prompt = custom_system_prompt })
+--   print("Switched to custom coding standards prompt for Avante.")
+--   is_custom_prompt_active = true
+-- end
+--
+-- -- Function to set the default system prompt explicitly
+-- local function set_default_prompt()
+--   require("avante.config").override({ system_prompt = default_system_prompt })
+--   print("Switched to default system prompt for Avante.")
+--   is_custom_prompt_active = false
+-- end
 
--- Function to set the default system prompt explicitly
-local function set_default_prompt()
-  require("avante.config").override({ system_prompt = default_system_prompt })
-  print("Switched to default system prompt for Avante.")
-  is_custom_prompt_active = false
-end
-
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
-  callback = function()
-    print("Filetype is", vim.bo.filetype)
-    local pattern = "[Aa][Vv][Aa][Nn][Tt][Ee]"
-    if string.find(vim.bo.filetype, pattern) then
-      return
-    elseif vim.bo.filetype == "c" then
-      set_custom_prompt()
-    else
-      set_default_prompt()
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd({ "BufEnter" }, {
+--   callback = function()
+--     print("Filetype is", vim.bo.filetype)
+--     local pattern = "[Aa][Vv][Aa][Nn][Tt][Ee]"
+--     if string.find(vim.bo.filetype, pattern) then
+--       return
+--     elseif vim.bo.filetype == "c" then
+--       set_custom_prompt()
+--     else
+--       set_default_prompt()
+--     end
+--   end,
+-- })
 vim.api.nvim_create_user_command("Format", function(args)
   local range = nil
   if args.count ~= -1 then
