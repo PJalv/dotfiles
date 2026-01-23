@@ -7,7 +7,7 @@ local function find_compile_commands_dir()
       return path
     end
   end
-  return root -- Fallback to root if not found
+  return root
 end
 
 return {

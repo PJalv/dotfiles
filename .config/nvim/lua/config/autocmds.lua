@@ -124,4 +124,83 @@ vim.api.nvim_create_user_command("Format", function(args)
 end, { range = true })
 
 -- Disable LazyVim's automatic formatting on save
+vim.api.nvim_create_user_command("ClangdGotoDefinition", function()
+    local client = vim.lsp.get_clients({ bufnr = 0, name = "clangd" })[1]
+  if not client then
+        return
+  end
+
+  local original_word = vim.fn.expand("<cword>")
+    local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
+
+  vim.lsp.buf_request(0, "textDocument/definition", params, function(err, result)
+    if err or not result then
+            return
+    end
+
+    local locations = vim.islist(result) and result or { result }
+    local uri = locations[1].uri or locations[1].targetUri
+    local filepath = vim.uri_to_fname(uri)
+    
+    if not filepath:match("%.h$") then
+            vim.lsp.util.jump_to_location(locations[1], client.offset_encoding)
+      return
+    end
+
+    
+    local base_name = filepath:match("([^/]+)%.h$")
+    local c_file = nil
+
+    local same_dir = filepath:gsub("%.h$", ".c")
+        if vim.fn.filereadable(same_dir) == 1 then
+      c_file = same_dir
+          else
+            local cmd = string.format("find %s -name '%s.c' 2>/dev/null", vim.fn.getcwd(), base_name)
+      local handle = io.popen(cmd)
+      if handle then
+        c_file = handle:read("*l")
+        handle:close()
+        if c_file then
+                  else
+                  end
+      end
+    end
+
+    if not c_file or vim.fn.filereadable(c_file) ~= 1 then
+            vim.lsp.util.jump_to_location(locations[1], client.offset_encoding)
+      return
+    end
+
+        vim.cmd("edit " .. vim.fn.fnameescape(c_file))
+
+    vim.fn.cursor(1, 1)
+    local found = false
+    local search_count = 0
+    while true do
+      local pos = vim.fn.search("\\<" .. original_word .. "\\>\\s*(", "W")
+      if pos == 0 then break end
+
+      search_count = search_count + 1
+      
+      local current_line = vim.fn.line(".")
+      for i = current_line, math.min(current_line + 10, vim.fn.line("$")) do
+        local line_content = vim.fn.getline(i)
+        if line_content:match("{") then
+          found = true
+          vim.fn.cursor(current_line, 1)
+                    break
+        end
+        if line_content:match(";") then
+          break
+        end
+      end
+
+      if found then break end
+    end
+
+    if not found then
+          end
+  end)
+end, { desc = "Goto Definition (prefer .c implementation)" })
+
 vim.g.autoformat = false
