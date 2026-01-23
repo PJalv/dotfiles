@@ -4,5 +4,7 @@ customCommands:
     context: 'global'
     loadingText: 'pushing'
 
+git:
+  autoFetch: false
 
 confirmOnQuit: true

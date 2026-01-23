@@ -122,3 +122,6 @@ vim.api.nvim_create_user_command("Format", function(args)
   end
   require("conform").format({ async = true, lsp_format = "fallback", range = range })
 end, { range = true })
+
+-- Disable LazyVim's automatic formatting on save
+vim.g.autoformat = false
