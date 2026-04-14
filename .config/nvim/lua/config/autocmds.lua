@@ -124,71 +124,226 @@ vim.api.nvim_create_user_command("Format", function(args)
 end, { range = true })
 
 -- Disable LazyVim's automatic formatting on save
-vim.api.nvim_create_user_command("ClangdGotoDefinition", function()
-    local client = vim.lsp.get_clients({ bufnr = 0, name = "clangd" })[1]
-  if not client then
-        return
+local function find_workspace_root(start_path)
+  local search_path = vim.fs.dirname(start_path)
+  local repo_dir = vim.fs.find(".repo", { path = search_path, upward = true, type = "directory", limit = 1 })[1]
+  if repo_dir then
+    return vim.fs.dirname(repo_dir)
   end
 
+  local git_dir = vim.fs.find(".git", { path = search_path, upward = true, limit = 1 })[1]
+  if git_dir then
+    return vim.fs.dirname(git_dir)
+  end
+
+  return vim.fn.getcwd()
+end
+
+local function is_generated_source(path)
+  local markers = {
+    "/build_dir/",
+    "/staging_dir/",
+    "/buildroot/build/",
+    "/buildroot/output/",
+    "/tmp/",
+    "/dl/",
+  }
+
+  for _, marker in ipairs(markers) do
+    if path:find(marker, 1, true) then
+      return true
+    end
+  end
+
+  return false
+end
+
+local function source_score(path)
+  local score = 100
+
+  if path:find("/fep_source/src/", 1, true) then
+    score = score - 40
+  end
+  if path:find("/platform/src/", 1, true) then
+    score = score - 30
+  end
+  if path:find("/enterprise_gateway/tplink/", 1, true) then
+    score = score - 20
+  end
+  if is_generated_source(path) then
+    score = score + 100
+  end
+
+  return score
+end
+
+local function get_preferred_source_roots(workspace_root)
+  local candidate_roots = {
+    workspace_root .. "/fep_source/src",
+    workspace_root .. "/platform/src",
+    workspace_root .. "/enterprise_gateway/tplink",
+    workspace_root .. "/enterprise_gateway/package",
+  }
+
+  return vim.tbl_filter(function(path)
+    return vim.fn.isdirectory(path) == 1
+  end, candidate_roots)
+end
+
+local function dedupe_paths(paths)
+  local seen = {}
+  local result = {}
+
+  for _, path in ipairs(paths) do
+    if path and path ~= "" and not seen[path] then
+      seen[path] = true
+      table.insert(result, path)
+    end
+  end
+
+  return result
+end
+
+local function find_definition_by_symbol(base_name, symbol, roots)
+  local matches = {}
+  local pattern = [[\b]] .. symbol .. [[\s*\(]]
+
+  for _, root in ipairs(roots) do
+    local cmd = {
+      "rg",
+      "--line-number",
+      "--color",
+      "never",
+      "--glob",
+      "**/" .. base_name .. ".c",
+      pattern,
+      root,
+    }
+
+    local result = vim.system(cmd, { text = true }):wait()
+    if result.code == 0 and result.stdout and result.stdout ~= "" then
+      for line in result.stdout:gmatch("[^\r\n]+") do
+        local path = line:match("^([^:]+):%d+:")
+        if path and not is_generated_source(path) then
+          table.insert(matches, path)
+        end
+      end
+    end
+  end
+
+  matches = dedupe_paths(matches)
+  table.sort(matches, function(a, b)
+    local score_a = source_score(a)
+    local score_b = source_score(b)
+    if score_a == score_b then
+      return a < b
+    end
+    return score_a < score_b
+  end)
+
+  return matches[1]
+end
+
+local function find_preferred_c_file(base_name, header_path, current_file, symbol)
+  local same_dir = header_path:gsub("%.h$", ".c")
+  if vim.fn.filereadable(same_dir) == 1 then
+    return same_dir
+  end
+
+  local search_root = find_workspace_root(current_file)
+  local source_roots = get_preferred_source_roots(search_root)
+
+  if symbol and symbol ~= "" then
+    local symbol_match = find_definition_by_symbol(base_name, symbol, source_roots)
+    if symbol_match then
+      return symbol_match
+    end
+  end
+
+  local candidates = {}
+  for _, root in ipairs(source_roots) do
+    vim.list_extend(candidates, vim.fn.globpath(root, "**/" .. base_name .. ".c", false, true))
+  end
+
+  candidates = dedupe_paths(candidates)
+  if not candidates or vim.tbl_isempty(candidates) then
+    return nil
+  end
+
+  candidates = vim.tbl_filter(function(path)
+    return vim.fn.filereadable(path) == 1
+  end, candidates)
+
+  table.sort(candidates, function(a, b)
+    local score_a = source_score(a)
+    local score_b = source_score(b)
+    if score_a == score_b then
+      return a < b
+    end
+    return score_a < score_b
+  end)
+
+  return candidates[1]
+end
+
+vim.api.nvim_create_user_command("ClangdGotoDefinition", function()
+  local client = vim.lsp.get_clients({ bufnr = 0, name = "clangd" })[1]
+  if not client then
+    return
+  end
+
+  local current_file = vim.api.nvim_buf_get_name(0)
   local original_word = vim.fn.expand("<cword>")
-    local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
+  local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
 
   vim.lsp.buf_request(0, "textDocument/definition", params, function(err, result)
     if err or not result then
-            return
+      return
     end
 
     local locations = vim.islist(result) and result or { result }
-    local uri = locations[1].uri or locations[1].targetUri
-    local filepath = vim.uri_to_fname(uri)
-    
-    if not filepath:match("%.h$") then
-            vim.lsp.util.jump_to_location(locations[1], client.offset_encoding)
-      return
-    end
-
-    
-    local base_name = filepath:match("([^/]+)%.h$")
-    local c_file = nil
-
-    local same_dir = filepath:gsub("%.h$", ".c")
-        if vim.fn.filereadable(same_dir) == 1 then
-      c_file = same_dir
-          else
-            local cmd = string.format("find %s -name '%s.c' 2>/dev/null", vim.fn.getcwd(), base_name)
-      local handle = io.popen(cmd)
-      if handle then
-        c_file = handle:read("*l")
-        handle:close()
-        if c_file then
-                  else
-                  end
+    for _, location in ipairs(locations) do
+      local direct_uri = location.uri or location.targetUri
+      local direct_path = vim.uri_to_fname(direct_uri)
+      if not direct_path:match("%.h$") then
+        vim.lsp.util.jump_to_location(location, client.offset_encoding)
+        return
       end
     end
 
-    if not c_file or vim.fn.filereadable(c_file) ~= 1 then
-            vim.lsp.util.jump_to_location(locations[1], client.offset_encoding)
+    local uri = locations[1].uri or locations[1].targetUri
+    local filepath = vim.uri_to_fname(uri)
+
+    if not filepath:match("%.h$") then
+      vim.lsp.util.jump_to_location(locations[1], client.offset_encoding)
       return
     end
 
-        vim.cmd("edit " .. vim.fn.fnameescape(c_file))
+    local base_name = filepath:match("([^/]+)%.h$")
+    local c_file = find_preferred_c_file(base_name, filepath, current_file, original_word)
+
+    if not c_file or vim.fn.filereadable(c_file) ~= 1 then
+      vim.lsp.util.jump_to_location(locations[1], client.offset_encoding)
+      return
+    end
+
+    vim.cmd("edit " .. vim.fn.fnameescape(c_file))
 
     vim.fn.cursor(1, 1)
     local found = false
-    local search_count = 0
     while true do
       local pos = vim.fn.search("\\<" .. original_word .. "\\>\\s*(", "W")
-      if pos == 0 then break end
+      if pos == 0 then
+        break
+      end
 
-      search_count = search_count + 1
-      
       local current_line = vim.fn.line(".")
       for i = current_line, math.min(current_line + 10, vim.fn.line("$")) do
         local line_content = vim.fn.getline(i)
         if line_content:match("{") then
           found = true
           vim.fn.cursor(current_line, 1)
-                    break
+          break
         end
         if line_content:match(";") then
           break
@@ -199,7 +354,7 @@ vim.api.nvim_create_user_command("ClangdGotoDefinition", function()
     end
 
     if not found then
-          end
+    end
   end)
 end, { desc = "Goto Definition (prefer .c implementation)" })
 

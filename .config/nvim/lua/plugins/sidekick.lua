@@ -7,6 +7,8 @@ return {
         backend = "tmux",
         enabled = true,
       },
+      -- Use snacks picker instead of fzf-lua
+      picker = "snacks",
     },
   },
   keys = {

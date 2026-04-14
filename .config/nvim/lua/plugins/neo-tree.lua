@@ -9,7 +9,7 @@ return {
       window = {
         mappings = { ["<leader>p"] = "kitty_prev" },
       },
-      bind_to_cwd = true,
+      bind_to_cwd = false,
       filtered_items = {
         visible = true,
         show_hidden_count = true,

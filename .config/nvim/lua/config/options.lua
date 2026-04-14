@@ -94,3 +94,4 @@ end, { nargs = 1 })
 
 
 vim.g.root_spec = { "cwd" }
+vim.g.lazyvim_picker = "telescope"
